@@ -41,14 +41,16 @@ h3 {
 /* === Header === */
 .header {
   padding: 32px var(--spacing) 16px;
+  margin-left: calc(-1 * var(--spacing));
+  margin-right: calc(-1 * var(--spacing));
+  margin-bottom: 16px;
   position: sticky;
   top: 0;
-  background-color: rgba(0, 0, 0, 0.65);
+  background-color: rgba(28, 28, 30, 0.75);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   z-index: 10;
   border-bottom: 0.5px solid rgba(255, 255, 255, 0.1);
-  margin-bottom: 16px;
 }
 
 .header h1 {
@@ -254,7 +256,7 @@ select:not(.list-item select):focus {
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: rgba(28, 28, 30, 0.85);
+  background-color: rgba(28, 28, 30, 0.75);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   display: flex;
@@ -532,4 +534,93 @@ option {
   visibility: visible;
   opacity: 1;
   transform: translate(-50%, 0);
+}
+
+/* === Responsive Desktop / Tablet Layout === */
+@media (min-width: 768px) {
+  html {
+    background-color: var(--bg-color);
+    background-image: none;
+  }
+
+  body {
+    display: grid;
+    grid-template-columns: 80px 400px 1fr;
+    grid-template-areas: 'nav calc main';
+    height: 100vh;
+    max-width: 100%;
+    margin: 0;
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
+    overflow: hidden;
+    padding-bottom: 0;
+  }
+
+  .bottom-nav {
+    position: relative;
+    grid-area: nav;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-top: 32px;
+    height: 100vh;
+    border-top: none;
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    background-color: rgba(28, 28, 30, 0.4);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    width: 80px;
+    left: auto;
+    transform: none;
+  }
+
+  .nav-item {
+    flex-direction: column;
+    margin-bottom: 24px;
+    padding: 12px;
+  }
+
+  #nav-calculator {
+    display: none;
+  }
+
+  #view-calculator {
+    grid-area: calc;
+    display: block !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    height: 100vh;
+    overflow-y: auto;
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+
+  #view-calculator .header {
+    background-color: rgba(0, 0, 0, 0.85);
+  }
+
+  #view-food,
+  #view-settings,
+  #view-faq {
+    grid-area: main;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0 40px 40px 40px;
+  }
+
+  #view-food .header,
+  #view-settings .header,
+  #view-faq .header {
+    margin: 0 -40px 16px -40px;
+    padding: 32px 40px 16px 40px;
+  }
+
+  .toast {
+    left: calc(50% + 240px);
+    max-width: 400px;
+  }
+
+  .modal-overlay {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    background-color: rgba(0, 0, 0, 0.8);
+  }
 }

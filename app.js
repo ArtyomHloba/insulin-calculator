@@ -14,12 +14,16 @@ function init() {
   loadSettings();
   renderFoodList();
   renderMealList();
+
+  if (window.innerWidth >= 768) {
+    switchTab('food');
+  }
 }
 
 function showToast(message) {
   const toast = document.getElementById('toast');
   if (!toast) return;
-  toast.innerText = message;
+  toast.innerHTML = message;
   toast.classList.add('show');
   setTimeout(() => {
     toast.classList.remove('show');
@@ -112,14 +116,27 @@ function autoCalculateSettings() {
 }
 
 function switchTab(tabId) {
+  const isDesktop = window.innerWidth >= 768;
+
+  if (isDesktop && tabId === 'calculator') {
+    tabId = 'food';
+  }
+
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
   document.getElementById('view-' + tabId).classList.add('active');
+
   document
     .querySelectorAll('.nav-item')
     .forEach(n => n.classList.remove('active'));
+
   const navItem = document.getElementById('nav-' + tabId);
   if (navItem) navItem.classList.add('active');
-  if (tabId === 'calculator') {
+
+  const calcView = document.getElementById('view-calculator');
+  if (
+    tabId === 'calculator' ||
+    (isDesktop && getComputedStyle(calcView).display !== 'none')
+  ) {
     renderMealList();
     document.getElementById('result-card').style.display = 'none';
   }

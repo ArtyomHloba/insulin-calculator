@@ -7,6 +7,10 @@
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
     <title>Инсулин Калькулятор</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -20,7 +24,9 @@
         "
       >
         <div>
-          <h1 data-i18n="title_calc">📱 Калькулятор</h1>
+          <h1 data-i18n="title_calc">
+            <i class="fa-solid fa-calculator"></i> Калькулятор
+          </h1>
           <p data-i18n="subtitle_calc">Расчет дозы на еду и коррекцию</p>
         </div>
         <select
@@ -64,11 +70,11 @@
           onclick="saveInjection()"
           data-i18n="save_injection"
         >
-          💉 Сохранить укол
+          <i class="fa-solid fa-syringe"></i> Сохранить укол
         </button>
       </div>
       <div class="list-header" data-i18n="current_bg_title">
-        🩸 Текущий сахар
+        <i class="fa-solid fa-droplet" style="color: #ff453a"></i> Текущий сахар
       </div>
       <div class="list-group">
         <div class="list-item">
@@ -85,7 +91,9 @@
           />
         </div>
       </div>
-      <div class="list-header" data-i18n="what_to_eat">🍽 Что будем есть?</div>
+      <div class="list-header" data-i18n="what_to_eat">
+        <i class="fa-solid fa-utensils"></i> Что будем есть?
+      </div>
       <div class="list-group">
         <div
           class="list-item clickable"
@@ -134,7 +142,9 @@
 
     <div id="view-food" class="view">
       <div class="header">
-        <h1 data-i18n="food_title">🍎 База продуктов</h1>
+        <h1 data-i18n="food_title">
+          <i class="fa-solid fa-apple-whole"></i> База продуктов
+        </h1>
         <p></p>
       </div>
       <div class="search-bar">
@@ -151,11 +161,13 @@
 
     <div id="view-settings" class="view">
       <div class="header">
-        <h1 data-i18n="settings_title">⚙️ Настройки</h1>
+        <h1 data-i18n="settings_title">
+          <i class="fa-solid fa-gear"></i> Настройки
+        </h1>
         <p></p>
       </div>
       <div class="list-header" data-i18n="basic_params">
-        📏 Основные параметры
+        <i class="fa-solid fa-ruler"></i> Основные параметры
       </div>
       <div class="list-group">
         <div class="list-item">
@@ -213,7 +225,7 @@
         </div>
       </div>
       <div class="list-header" data-i18n="medical_params">
-        💉 Медицинские коэффициенты
+        <i class="fa-solid fa-syringe"></i> Медицинские коэффициенты
       </div>
       <div class="list-group">
         <div
@@ -233,7 +245,8 @@
           onclick="switchTab('wizard')"
         >
           <span style="color: #34c759; font-weight: 500" data-i18n="wizard_btn"
-            >🎯 Рассчитать по своему опыту</span
+            ><i class="fa-solid fa-bullseye"></i> Рассчитать по своему
+            опыту</span
           >
         </div>
         <div class="list-item">
@@ -264,7 +277,10 @@
 
     <div id="view-faq" class="view">
       <div class="header">
-        <h1 data-i18n="faq_title">❓ FAQ & Отказ от ответственности</h1>
+        <h1 data-i18n="faq_title">
+          <i class="fa-solid fa-circle-question"></i> FAQ & Отказ от
+          ответственности
+        </h1>
         <p></p>
       </div>
       <div
@@ -272,14 +288,17 @@
         style="
           border-left: 4px solid var(--danger-color);
           background-color: rgba(255, 69, 58, 0.05);
+          margin-bottom: 24px;
+          padding: 16px;
         "
       >
         <h3
           class="card-title"
-          style="color: var(--danger-color)"
+          style="color: var(--danger-color); margin-bottom: 8px"
           data-i18n="faq_disclaimer_title"
         >
-          ⚠️ Важное предупреждение (Medical Disclaimer)
+          <i class="fa-solid fa-triangle-exclamation"></i> Важное предупреждение
+          (Medical Disclaimer)
         </h3>
         <p
           style="font-size: 14px; line-height: 1.6"
@@ -294,6 +313,76 @@
           доз. Алгоритм может не учитывать стресс, болезнь, физическую
           активность и другие индивидуальные факторы. Всегда проверяйте расчеты
           и консультируйтесь с врачом перед изменением терапии.
+        </p>
+      </div>
+
+      <div class="card" style="margin-bottom: 16px; padding: 16px">
+        <h3
+          class="card-title"
+          data-i18n="faq_q1_title"
+          style="font-size: 16px; margin-bottom: 8px"
+        >
+          Как рассчитывается доза на еду?
+        </h3>
+        <p
+          data-i18n="faq_q1_text"
+          style="font-size: 14px; color: var(--text-muted); line-height: 1.6"
+        >
+          Доза на еду = (Количество ХЕ) × (Углеводный коэффициент). Например,
+          если вы съели 3 ХЕ, а УК = 1.2, то доза = 3 × 1.2 = 3.6 ЕД.
+        </p>
+      </div>
+
+      <div class="card" style="margin-bottom: 16px; padding: 16px">
+        <h3
+          class="card-title"
+          data-i18n="faq_q2_title"
+          style="font-size: 16px; margin-bottom: 8px"
+        >
+          Как рассчитывается доза на коррекцию?
+        </h3>
+        <p
+          data-i18n="faq_q2_text"
+          style="font-size: 14px; color: var(--text-muted); line-height: 1.6"
+        >
+          Доза на коррекцию = (Текущий сахар - Целевой сахар) / ФЧИ. Если ваш
+          сахар 10, целевой 5.5, а ФЧИ = 2.5, то доза = (10 - 5.5) / 2.5 = 1.8
+          ЕД.
+        </p>
+      </div>
+
+      <div class="card" style="margin-bottom: 16px; padding: 16px">
+        <h3
+          class="card-title"
+          data-i18n="faq_q3_title"
+          style="font-size: 16px; margin-bottom: 8px"
+        >
+          Откуда берутся дефолтные коэффициенты?
+        </h3>
+        <p
+          data-i18n="faq_q3_text"
+          style="font-size: 14px; color: var(--text-muted); line-height: 1.6"
+        >
+          Они рассчитываются по международным формулам:<br />•
+          <b>Правило 500:</b> УК = 500 / Базальная доза.<br />•
+          <b>Правило 100 (ммоль/л):</b> ФЧИ = 100 / Суточная доза.
+        </p>
+      </div>
+
+      <div class="card" style="margin-bottom: 24px; padding: 16px">
+        <h3
+          class="card-title"
+          data-i18n="faq_q4_title"
+          style="font-size: 16px; margin-bottom: 8px"
+        >
+          Что такое IOB (Активный инсулин)?
+        </h3>
+        <p
+          data-i18n="faq_q4_text"
+          style="font-size: 14px; color: var(--text-muted); line-height: 1.6"
+        >
+          IOB (Insulin on Board) — это количество ранее уколотого инсулина,
+          которое еще действует в организме.
         </p>
       </div>
     </div>
@@ -321,7 +410,9 @@
           </svg>
           <span data-i18n="wizard_back">Назад в настройки</span>
         </button>
-        <h1 data-i18n="wizard_title">🎯 Мастер настройки</h1>
+        <h1 data-i18n="wizard_title">
+          <i class="fa-solid fa-bullseye"></i> Мастер настройки
+        </h1>
         <p data-i18n="wizard_subtitle">Расчет ваших реальных коэффициентов</p>
       </div>
 
