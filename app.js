@@ -102,7 +102,7 @@ function autoCalculateSettings() {
 
   const currentXeWeight =
     parseFloat(document.getElementById('setting-xe-weight').value) || 10;
-  const carbRatio = computeCarbRatio(tdd, currentXeWeight);
+  const carbRatio = computeCarbRatio(tdd, currentXeWeight, ageGroup);
 
   const isf = computeISF(tdd, settings.glucoseUnit);
   document.getElementById('setting-isf').value = isf;
@@ -191,6 +191,22 @@ function updateMealGrams(index, grams) {
   const g = parseFloat(grams);
   if (!isNaN(g) && g >= 0) {
     currentMeal[index].grams = g;
+
+    const itemCarbs = (currentMeal[index].food.carbsPer100g * g) / 100;
+    const itemCarbsEl = document.getElementById(`item-carbs-${index}`);
+    if (itemCarbsEl) {
+      itemCarbsEl.innerText = `${itemCarbs.toFixed(1)} г углеводов`;
+    }
+
+    let totalCarbs = 0;
+    currentMeal.forEach(item => {
+      totalCarbs += (item.food.carbsPer100g * item.grams) / 100;
+    });
+    const totalXe = (totalCarbs / settings.xeWeight).toFixed(1);
+    const totalMealEl = document.getElementById('total-meal-summary');
+    if (totalMealEl) {
+      totalMealEl.innerHTML = `${totalCarbs.toFixed(1)} г (${totalXe} ХЕ)`;
+    }
   }
 }
 
@@ -212,12 +228,19 @@ function renderMealList() {
       item.food.name.toLowerCase().includes('таблетк');
     const isDrink = item.food.category === 'Напитки' || item.food.unit === 'ml';
     const unitLabel = isTablet ? t('pcs') : isDrink ? t('ml') : t('g');
+    const itemCarbs = (item.food.carbsPer100g * item.grams) / 100;
+
     html += `
       <div class="meal-item">
-        <div class="name">${tFood(item.food.name)}</div>
+        <div>
+          <div class="name">${tFood(item.food.name)}</div>
+          <div id="item-carbs-${index}" style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">
+            ${itemCarbs.toFixed(1)} г углеводов
+          </div>
+        </div>
         <div class="flex-row" style="justify-content: space-between; align-items: center; margin-top: 12px; width: 100%;">
           <div style="display: flex; align-items: center; gap: 8px;">
-            <input type="number" class="grams-input" value="${item.grams}" onchange="updateMealGrams(${index}, this.value)" inputmode="numeric">
+            <input type="number" class="grams-input" value="${item.grams}" oninput="updateMealGrams(${index}, this.value)" inputmode="numeric">
             <span style="color: var(--text-muted);">${unitLabel}</span>
           </div>
           <button class="remove-btn" onclick="removeFromMeal(${index})">
@@ -229,7 +252,22 @@ function renderMealList() {
       </div>
     `;
   });
+
+  let totalCarbs = 0;
+  currentMeal.forEach(item => {
+    totalCarbs += (item.food.carbsPer100g * item.grams) / 100;
+  });
+  const totalXe = (totalCarbs / settings.xeWeight).toFixed(1);
+
+  html += `
+    <div style="text-align: right; margin-top: 16px; margin-bottom: 8px; font-size: 15px; color: var(--text-muted);">
+      <span data-i18n="total_meal">Итого:</span>
+      <span id="total-meal-summary" style="color: var(--text-main); font-weight: 600;">${totalCarbs.toFixed(1)} г (${totalXe} ХЕ)</span>
+    </div>
+  `;
+
   container.innerHTML = html;
+  if (typeof applyTranslations === 'function') applyTranslations();
 }
 
 function calculateDose() {
@@ -248,17 +286,13 @@ function calculateDose() {
   );
 
   if (result.warnings.includes('hypo')) {
-    alert(
-      `🚨 ОПАСНОСТЬ ГИПОГЛИКЕМИИ!\n\nТекущая глюкоза (${result.currentBg}) ниже порога безопасности.\n\n1. Сначала съешьте 1-2 ХЕ быстрой глюкозы БЕЗ укола!\n2. Дождитесь подъема сахара.\n3. Только после этого рассчитывайте инсулин на еду.`,
-    );
+    showToast('🚨 ОПАСНОСТЬ ГИПОГЛИКЕМИИ! Сначала купируйте гипогликемию.');
   }
   if (result.warnings.includes('ketones')) {
     showToast(t('high_bg_toast'));
   }
   if (result.warnings.includes('iob_deducted')) {
-    alert(
-      `ℹ️ Учтен активный инсулин (IOB): ~${result.activeInsulinIOB.toFixed(1)} ЕД от прошлого укола.\nДоза на коррекцию будет снижена, чтобы избежать гипогликемии.`,
-    );
+    // Silently handle IOB deduction in UI (already visible in dose breakdown)
   }
 
   document.getElementById('dose-food').innerText =

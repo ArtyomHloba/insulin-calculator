@@ -10,6 +10,7 @@ const translations = {
     current_bg_title: '🩸 Текущий сахар',
     sugar_label: 'Сахар',
     what_to_eat: '🍽 Что будем есть?',
+    total_meal: 'Итого:',
     add_btn: '+ Добавить',
     empty_meal:
       'Список еды пуст.<br>Нажмите "+ Добавить" или введите ХЕ вручную.',
@@ -84,6 +85,7 @@ const translations = {
     current_bg_title: '🩸 Поточний цукор',
     sugar_label: 'Цукор',
     what_to_eat: '🍽 Що будемо їсти?',
+    total_meal: 'Разом:',
     add_btn: '+ Додати',
     empty_meal:
       'Список їжі порожній.<br>Натисніть "+ Додати" або введіть ХО вручну.',
@@ -156,8 +158,9 @@ const translations = {
     dose_correction: 'Correction:',
     save_injection: '💉 Save injection',
     current_bg_title: '🩸 Current Blood Sugar',
-    sugar_label: 'Blood Sugar',
-    what_to_eat: '🍽 What are we eating?',
+    sugar_label: 'Glucose',
+    what_to_eat: '🍽 What to eat?',
+    total_meal: 'Total:',
     add_btn: '+ Add',
     empty_meal: 'Meal list is empty.<br>Press "+ Add" or enter carbs manually.',
     manual_xe: 'Or enter manual Carbs/Exchanges',

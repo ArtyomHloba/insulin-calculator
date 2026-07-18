@@ -7,9 +7,15 @@ function computeTDD(weight, ageGroup) {
   return weight * multiplier;
 }
 
-function computeCarbRatio(tdd, xeWeight) {
+function computeCarbRatio(tdd, xeWeight, ageGroup = 'adult') {
   if (!tdd || tdd <= 0) return 1.0;
-  const carbsPerUnit = 500 / tdd;
+
+  let ruleConst = 500;
+  if (ageGroup === 'child') ruleConst = 300;
+  else if (ageGroup === 'teen') ruleConst = 400;
+  else if (ageGroup === 'senior') ruleConst = 550;
+
+  const carbsPerUnit = ruleConst / tdd;
   return parseFloat((xeWeight / carbsPerUnit).toFixed(2));
 }
 
@@ -49,6 +55,10 @@ function computeActiveInsulin(lastInjection, currentTimeMs = Date.now()) {
   const hoursPassed = (currentTimeMs - lastInjection.time) / (1000 * 60 * 60);
   const diaHours = 4.0;
 
+  if (hoursPassed < 0) {
+    return 0;
+  }
+
   if (hoursPassed < diaHours) {
     const activeInsulinIOB = lastInjection.dose * (1 - hoursPassed / diaHours);
     return Math.max(0, parseFloat(activeInsulinIOB.toFixed(2)));
@@ -62,7 +72,11 @@ function computeDose(meal, manualXeStr, settings, currentBgStr, lastInjection) {
     totalCarbs += (item.food.carbsPer100g * item.grams) / 100;
   });
 
-  let totalXe = totalCarbs / settings.xeWeight;
+  let totalXe = 0;
+  if (settings.xeWeight > 0) {
+    totalXe = totalCarbs / settings.xeWeight;
+  }
+
   if (manualXeStr) {
     totalXe += parseFloat(manualXeStr) || 0;
   }
@@ -94,7 +108,10 @@ function computeDose(meal, manualXeStr, settings, currentBgStr, lastInjection) {
       warnings.push('ketones');
     }
 
-    let rawCorrection = (currentBg - settings.targetBg) / settings.isf;
+    let rawCorrection = 0;
+    if (settings.isf && settings.isf > 0) {
+      rawCorrection = (currentBg - settings.targetBg) / settings.isf;
+    }
 
     if (rawCorrection > 0) {
       if (activeInsulinIOB > 0) {
