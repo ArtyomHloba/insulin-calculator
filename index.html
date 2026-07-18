@@ -11,56 +11,94 @@
   </head>
   <body>
     <div id="view-calculator" class="view active">
-      <div class="header">
-        <h1>📱 Калькулятор</h1>
-        <p>Расчет дозы на еду и коррекцию</p>
-      </div>
-      <div class="card result-card" id="result-card" style="display: none">
-        <h2>Рекомендуемая доза:</h2>
-        <div
-          class="flex-row"
-          style="justify-content: center; align-items: baseline"
-        >
-          <span class="dose" id="final-dose">0.0</span>
-          <span class="units">ЕД</span>
+      <div
+        class="header"
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        "
+      >
+        <div>
+          <h1 data-i18n="title_calc">📱 Калькулятор</h1>
+          <p data-i18n="subtitle_calc">Расчет дозы на еду и коррекцию</p>
         </div>
-        <div class="result-details">
-          <span id="dose-food">На еду: 0 ЕД</span>
-          <span id="dose-correction">Коррекция: 0 ЕД</span>
-        </div>
-      </div>
-      <div class="card">
-        <h3 class="card-title">🩸 Текущий сахар</h3>
-        <div class="flex-row">
-          <div class="input-group flex-1">
-            <label>Сахар <span class="unit-label">(ммоль/л)</span></label>
-            <input
-              type="number"
-              id="current-bg"
-              placeholder="Например: 5.5"
-              step="0.1"
-              inputmode="decimal"
-            />
-          </div>
-        </div>
-      </div>
-      <div class="card">
-        <div
-          class="flex-row"
+        <select
+          id="lang-select"
           style="
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 14px;
+            width: auto;
+            appearance: auto;
+            background-image: none;
+            background-color: var(--surface-color);
           "
         >
-          <h3 class="card-title" style="margin-bottom: 0">
-            🍽 Что будем есть?
-          </h3>
-          <button class="btn small" onclick="switchTab('food')">
-            + Добавить
-          </button>
+          <option value="ru">RU</option>
+          <option value="uk">UK</option>
+          <option value="en">EN</option>
+        </select>
+      </div>
+      <div class="card result-card" id="result-card" style="display: none">
+        <h2 data-i18n="recommended_dose">Рекомендуемая доза:</h2>
+        <div class="dose">
+          <span id="final-dose">0.0</span>
+          <span class="units" data-i18n="units">ЕД</span>
         </div>
-        <div id="meal-list">
+        <div class="result-details">
+          <div id="dose-food" data-i18n="dose_food">На еду: 0.0 ЕД</div>
+          <div id="dose-correction" data-i18n="dose_correction">
+            Коррекция: 0.0 ЕД
+          </div>
+        </div>
+        <button
+          class="btn small"
+          style="
+            margin-top: 16px;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            font-size: 16px;
+          "
+          onclick="saveInjection()"
+          data-i18n="save_injection"
+        >
+          💉 Сохранить укол
+        </button>
+      </div>
+      <div class="list-header" data-i18n="current_bg_title">
+        🩸 Текущий сахар
+      </div>
+      <div class="list-group">
+        <div class="list-item">
+          <label
+            ><span data-i18n="sugar_label">Сахар</span>
+            <span class="unit-label">(ммоль/л)</span></label
+          >
+          <input
+            type="number"
+            id="current-bg"
+            placeholder="5.5"
+            step="0.1"
+            inputmode="decimal"
+          />
+        </div>
+      </div>
+      <div class="list-header" data-i18n="what_to_eat">🍽 Что будем есть?</div>
+      <div class="list-group">
+        <div
+          class="list-item clickable"
+          style="justify-content: center; cursor: pointer"
+          onclick="switchTab('food')"
+        >
+          <span
+            style="color: var(--primary-color); font-weight: 500"
+            data-i18n="add_btn"
+            >+ Добавить</span
+          >
+        </div>
+        <div id="meal-list" style="padding: 0 16px">
           <p
             style="
               color: var(--text-muted);
@@ -68,134 +106,377 @@
               text-align: center;
               padding: 20px 0;
             "
+            data-i18n="empty_meal"
           >
             Список еды пуст.<br />Нажмите "+ Добавить" или введите ХЕ вручную.
           </p>
         </div>
-        <div
-          style="
-            border-top: 1px solid var(--surface-hover);
-            margin-top: 16px;
-            padding-top: 16px;
-          "
-        >
-          <div class="input-group">
-            <label>Или введите ХЕ вручную (всего)</label>
-            <input
-              type="number"
-              id="manual-xe"
-              placeholder="0.0"
-              step="0.1"
-              inputmode="decimal"
-            />
-          </div>
+        <div class="list-item">
+          <label data-i18n="manual_xe">Или введите ХЕ вручную (всего)</label>
+          <input
+            type="number"
+            id="manual-xe"
+            placeholder="0.0"
+            step="0.1"
+            inputmode="decimal"
+          />
         </div>
       </div>
-      <button class="btn" onclick="calculateDose()" style="margin-top: 8px">
+      <button
+        class="btn"
+        onclick="calculateDose()"
+        style="margin-top: 8px"
+        data-i18n="calc_btn"
+      >
         Рассчитать дозу
       </button>
     </div>
+
     <div id="view-food" class="view">
       <div class="header">
-        <h1>🍎 Продукты</h1>
-        <p>Выберите еду для расчета</p>
+        <h1 data-i18n="food_title">🍎 База продуктов</h1>
+        <p></p>
       </div>
       <div class="search-bar">
         <input
           type="text"
           id="food-search"
+          data-i18n="search_placeholder"
           placeholder="Поиск продуктов..."
           onkeyup="renderFoodList()"
         />
       </div>
       <div id="food-container"></div>
     </div>
+
     <div id="view-settings" class="view">
       <div class="header">
-        <h1>⚙️ Настройки</h1>
-        <p>Параметры для точного расчета</p>
+        <h1 data-i18n="settings_title">⚙️ Настройки</h1>
+        <p></p>
       </div>
-      <div class="card">
-        <h3 class="card-title">📏 Основные параметры</h3>
-        <div class="input-group">
-          <label>Единицы измерения сахара</label>
-          <select
-            id="setting-glucose-unit"
-            onchange="changeGlucoseUnit()"
-            style="margin-bottom: 8px"
-          >
-            <option value="mmol">ммоль/л (СНГ, Европа)</option>
-            <option value="mgdl">мг/дл (США)</option>
+      <div class="list-header" data-i18n="basic_params">
+        📏 Основные параметры
+      </div>
+      <div class="list-group">
+        <div class="list-item">
+          <label data-i18n="age_group">Возрастная группа</label>
+          <select id="setting-age-group">
+            <option value="adult" data-i18n="age_adult">
+              Взрослые (18-60 лет)
+            </option>
+            <option value="child" data-i18n="age_child">
+              Дети (до 12 лет)
+            </option>
+            <option value="teen" data-i18n="age_teen">
+              Подростки (12-18 лет)
+            </option>
+            <option value="senior" data-i18n="age_senior">
+              Пожилые (60+ лет)
+            </option>
           </select>
         </div>
-        <div class="input-group">
-          <label>Вес тела (кг)</label>
+        <div class="list-item">
+          <label data-i18n="glucose_units">Единицы измерения</label>
+          <select id="setting-glucose-unit" onchange="changeGlucoseUnit()">
+            <option value="mmol">ммоль/л</option>
+            <option value="mgdl">мг/дл</option>
+          </select>
+        </div>
+        <div class="list-item">
+          <label data-i18n="weight_label">Вес тела (кг)</label>
           <input
             type="number"
             id="setting-weight"
-            placeholder="Например: 60"
+            placeholder="60"
             onchange="autoCalculateSettings()"
+            inputmode="decimal"
           />
         </div>
-        <div class="input-group">
-          <label>Вес 1 ХЕ (в граммах углеводов)</label>
-          <input type="number" id="setting-xe-weight" value="10" />
+        <div class="list-item">
+          <label data-i18n="xe_weight">Вес 1 ХЕ (г угл)</label>
+          <input
+            type="number"
+            id="setting-xe-weight"
+            value="10"
+            inputmode="decimal"
+          />
         </div>
-        <div class="input-group">
-          <label>Целевой сахар <span class="unit-label">(ммоль/л)</span></label>
-          <input type="number" id="setting-target-bg" value="5.5" step="0.1" />
+        <div class="list-item">
+          <label data-i18n="target_bg">Целевой сахар</label>
+          <input
+            type="number"
+            id="setting-target-bg"
+            value="5.5"
+            step="0.1"
+            inputmode="decimal"
+          />
         </div>
       </div>
-      <div class="card">
+      <div class="list-header" data-i18n="medical_params">
+        💉 Медицинские коэффициенты
+      </div>
+      <div class="list-group">
+        <div
+          class="list-item clickable"
+          style="justify-content: center; cursor: pointer"
+          onclick="autoCalculateSettings()"
+        >
+          <span
+            style="color: var(--primary-color); font-weight: 500"
+            data-i18n="auto_calc_btn"
+            >⚖️ Авторасчет по весу</span
+          >
+        </div>
+        <div
+          class="list-item clickable"
+          style="justify-content: center; cursor: pointer"
+          onclick="switchTab('wizard')"
+        >
+          <span style="color: #34c759; font-weight: 500" data-i18n="wizard_btn"
+            >🎯 Рассчитать по своему опыту</span
+          >
+        </div>
+        <div class="list-item">
+          <label data-i18n="carb_ratio">УК (ЕД на 1 ХЕ)</label>
+          <input
+            type="number"
+            id="setting-carb-ratio"
+            step="0.1"
+            value="1.0"
+            inputmode="decimal"
+          />
+        </div>
+        <div class="list-item">
+          <label data-i18n="isf">ФЧИ (снижение на 1 ЕД)</label>
+          <input
+            type="number"
+            id="setting-isf"
+            step="0.1"
+            value="3.0"
+            inputmode="decimal"
+          />
+        </div>
+      </div>
+      <button class="btn" onclick="saveSettings()" data-i18n="save_settings">
+        Сохранить настройки
+      </button>
+    </div>
+
+    <div id="view-faq" class="view">
+      <div class="header">
+        <h1 data-i18n="faq_title">❓ FAQ & Отказ от ответственности</h1>
+        <p></p>
+      </div>
+      <div
+        class="card"
+        style="
+          border-left: 4px solid var(--danger-color);
+          background-color: rgba(255, 69, 58, 0.05);
+        "
+      >
+        <h3
+          class="card-title"
+          style="color: var(--danger-color)"
+          data-i18n="faq_disclaimer_title"
+        >
+          ⚠️ Важное предупреждение (Medical Disclaimer)
+        </h3>
+        <p
+          style="font-size: 14px; line-height: 1.6"
+          data-i18n="faq_disclaimer_text"
+        >
+          Данное приложение создано исключительно для образовательных и
+          информационных целей. Оно <b>не является медицинским прибором</b> и не
+          может заменить профессиональную консультацию эндокринолога.<br /><br />Используемые
+          формулы (Правило 500, Правило 1800, расчет IOB) являются общепринятыми
+          клиническими стандартами, однако
+          <b>вы принимаете на себя все риски</b> за использование рассчитанных
+          доз. Алгоритм может не учитывать стресс, болезнь, физическую
+          активность и другие индивидуальные факторы. Всегда проверяйте расчеты
+          и консультируйтесь с врачом перед изменением терапии.
+        </p>
+      </div>
+    </div>
+
+    <div id="view-wizard" class="view">
+      <div class="header">
+        <button
+          onclick="switchTab('settings')"
+          style="
+            background: none;
+            border: none;
+            color: white;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 16px;
+            cursor: pointer;
+          "
+        >
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+            <path
+              d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"
+            />
+          </svg>
+          <span data-i18n="wizard_back">Назад в настройки</span>
+        </button>
+        <h1 data-i18n="wizard_title">🎯 Мастер настройки</h1>
+        <p data-i18n="wizard_subtitle">Расчет ваших реальных коэффициентов</p>
+      </div>
+
+      <div class="list-header" data-i18n="wizard_carb_title">
+        Углеводный коэффициент (УК)
+      </div>
+      <div class="list-group">
+        <div
+          style="
+            padding: 16px;
+            font-size: 13px;
+            color: var(--text-muted);
+            border-bottom: 0.5px solid rgba(255, 255, 255, 0.1);
+          "
+          data-i18n="wizard_carb_desc"
+        >
+          Вспомните свой идеальный прием пищи, когда сахар до и после еды был в
+          норме.
+        </div>
         <div
           class="flex-row"
           style="
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
+            gap: 12px;
+            padding: 16px;
+            border-bottom: 0.5px solid rgba(255, 255, 255, 0.1);
           "
         >
-          <h3 class="card-title" style="margin-bottom: 0">⚖️ Коэффициенты</h3>
-          <span style="font-size: 12px; color: var(--primary-color)"
-            >Авторасчет по весу</span
-          >
+          <div class="input-group flex-1">
+            <label data-i18n="wizard_carb_eaten">Углеводы (г)</label>
+            <input
+              type="number"
+              id="wizard-carbs"
+              placeholder="50"
+              oninput="calculateWizardCarb()"
+            />
+          </div>
+          <div class="input-group flex-1">
+            <label data-i18n="wizard_carb_dose">Инсулин (ЕД)</label>
+            <input
+              type="number"
+              id="wizard-dose-food"
+              placeholder="8"
+              step="0.5"
+              oninput="calculateWizardCarb()"
+            />
+          </div>
         </div>
-        <p
-          style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px"
+        <div class="list-item">
+          <span data-i18n="wizard_carb_result">Ваш реальный УК:</span>
+          <div>
+            <span
+              id="wizard-carb-result"
+              style="
+                color: var(--primary-color);
+                font-weight: 600;
+                margin-right: 4px;
+              "
+              >--</span
+            >
+            <span
+              style="color: var(--text-muted); font-size: 14px"
+              data-i18n="wizard_carb_units"
+              >ЕД / 1 ХЕ</span
+            >
+          </div>
+        </div>
+        <div
+          class="list-item clickable"
+          style="justify-content: center; cursor: pointer"
+          onclick="applyWizardCarb()"
         >
-          Вы можете изменить эти значения вручную, если врач подобрал вам более
-          точные коэффициенты.
-        </p>
-        <div class="input-group">
-          <label>Углеводный коэффициент (УК)</label>
-          <div
-            style="
-              font-size: 12px;
-              color: var(--text-muted);
-              margin-bottom: 4px;
-            "
+          <span
+            style="color: #34c759; font-weight: 500"
+            data-i18n="wizard_apply_carb"
+            >Применить этот УК</span
           >
-            Сколько ЕД инсулина нужно на 1 ХЕ
-          </div>
-          <input type="number" id="setting-carb-ratio" step="0.1" value="1.0" />
-        </div>
-        <div class="input-group">
-          <label>Фактор чувствительности (ФЧИ)</label>
-          <div
-            style="
-              font-size: 12px;
-              color: var(--text-muted);
-              margin-bottom: 4px;
-            "
-          >
-            На сколько <span class="unit-label">ммоль/л</span> снижает сахар 1
-            ЕД инсулина
-          </div>
-          <input type="number" id="setting-isf" step="0.1" value="3.0" />
         </div>
       </div>
-      <button class="btn" onclick="saveSettings()">Сохранить настройки</button>
+
+      <div class="list-header" data-i18n="wizard_isf_title">
+        Фактор чувствительности (ФЧИ)
+      </div>
+      <div class="list-group">
+        <div
+          style="
+            padding: 16px;
+            font-size: 13px;
+            color: var(--text-muted);
+            border-bottom: 0.5px solid rgba(255, 255, 255, 0.1);
+          "
+          data-i18n="wizard_isf_desc"
+        >
+          Вспомните случай, когда вы скалывали высокий сахар (без еды).
+        </div>
+        <div
+          class="flex-row"
+          style="
+            gap: 12px;
+            padding: 16px;
+            border-bottom: 0.5px solid rgba(255, 255, 255, 0.1);
+          "
+        >
+          <div class="input-group flex-1">
+            <label data-i18n="wizard_isf_before">Сахар ДО</label>
+            <input
+              type="number"
+              id="wizard-bg-before"
+              placeholder="12.0"
+              step="0.1"
+              oninput="calculateWizardISF()"
+            />
+          </div>
+          <div class="input-group flex-1">
+            <label data-i18n="wizard_isf_after">ПОСЛЕ (4ч)</label>
+            <input
+              type="number"
+              id="wizard-bg-after"
+              placeholder="6.0"
+              step="0.1"
+              oninput="calculateWizardISF()"
+            />
+          </div>
+          <div class="input-group flex-1">
+            <label data-i18n="wizard_isf_dose">Инсулин (ЕД)</label>
+            <input
+              type="number"
+              id="wizard-dose-corr"
+              placeholder="2"
+              step="0.5"
+              oninput="calculateWizardISF()"
+            />
+          </div>
+        </div>
+        <div class="list-item">
+          <span data-i18n="wizard_isf_result">Ваш реальный ФЧИ:</span>
+          <span
+            id="wizard-isf-result"
+            style="color: var(--primary-color); font-weight: 600"
+            >--</span
+          >
+        </div>
+        <div
+          class="list-item clickable"
+          style="justify-content: center; cursor: pointer"
+          onclick="applyWizardISF()"
+        >
+          <span
+            style="color: #34c759; font-weight: 500"
+            data-i18n="wizard_apply_isf"
+            >Применить этот ФЧИ</span
+          >
+        </div>
+      </div>
     </div>
+
     <div class="bottom-nav">
       <a
         class="nav-item active"
@@ -207,7 +488,7 @@
             d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 16H7v-2h10v2zm0-4H7v-2h10v2zm0-4H7V9h10v2zm-3-4H7V5h7v2z"
           />
         </svg>
-        Калькулятор
+        <span data-i18n="nav_calc">Калькулятор</span>
       </a>
       <a class="nav-item" id="nav-food" onclick="switchTab('food')">
         <svg viewBox="0 0 24 24">
@@ -215,7 +496,7 @@
             d="M8.1 13.34l2.83-2.83L3.91 3.5c-1.56 1.56-1.56 4.09 0 5.66l4.19 4.18zm6.78-1.81c1.53.71 3.68.21 5.27-1.38 1.91-1.91 2.28-4.65.81-6.12-1.46-1.46-4.2-1.1-6.12.81-1.59 1.59-2.09 3.74-1.38 5.27L3.7 19.87l1.41 1.41L12 14.41l6.88 6.88 1.41-1.41L13.41 13l1.47-1.47z"
           />
         </svg>
-        Продукты
+        <span data-i18n="nav_food">Еда</span>
       </a>
       <a class="nav-item" id="nav-settings" onclick="switchTab('settings')">
         <svg viewBox="0 0 24 24">
@@ -223,13 +504,23 @@
             d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.06-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.73,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.06,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.43-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.49-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"
           />
         </svg>
-        Настройки
+        <span data-i18n="nav_settings">Настройки</span>
+      </a>
+      <a class="nav-item" id="nav-faq" onclick="switchTab('faq')">
+        <svg viewBox="0 0 24 24">
+          <path
+            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"
+          />
+        </svg>
+        <span data-i18n="nav_faq">FAQ</span>
       </a>
     </div>
 
     <!-- Toast Notification -->
     <div id="toast" class="toast"></div>
 
+    <script src="locales.js"></script>
+    <script src="logic.js"></script>
     <script src="data.js"></script>
     <script src="app.js"></script>
   </body>

@@ -5,6 +5,7 @@ let settings = {
   carbRatio: 1.0,
   isf: 3.0,
   glucoseUnit: 'mmol',
+  ageGroup: 'adult',
 };
 
 let currentMeal = [];
@@ -36,6 +37,8 @@ function loadSettings() {
   document.getElementById('setting-carb-ratio').value = settings.carbRatio;
   document.getElementById('setting-isf').value = settings.isf;
   document.getElementById('setting-glucose-unit').value = settings.glucoseUnit;
+  document.getElementById('setting-age-group').value =
+    settings.ageGroup || 'adult';
   updateUnitLabels();
 }
 
@@ -49,13 +52,20 @@ function updateUnitLabels() {
 function changeGlucoseUnit() {
   const newUnit = document.getElementById('setting-glucose-unit').value;
   if (newUnit === settings.glucoseUnit) return;
-  if (newUnit === 'mgdl') {
-    settings.targetBg = Math.round(settings.targetBg * 18);
-    settings.isf = Math.round(settings.isf * 18);
-  } else {
-    settings.targetBg = (settings.targetBg / 18).toFixed(1);
-    settings.isf = (settings.isf / 18).toFixed(1);
-  }
+
+  settings.targetBg = convertGlucoseUnit(
+    settings.targetBg,
+    settings.glucoseUnit,
+    newUnit,
+    false,
+  );
+  settings.isf = convertGlucoseUnit(
+    settings.isf,
+    settings.glucoseUnit,
+    newUnit,
+    true,
+  );
+
   settings.glucoseUnit = newUnit;
   document.getElementById('setting-target-bg').value = settings.targetBg;
   document.getElementById('setting-isf').value = settings.isf;
@@ -76,8 +86,9 @@ function saveSettings() {
     parseFloat(document.getElementById('setting-isf').value) ||
     (settings.glucoseUnit === 'mmol' ? 3.0 : 50);
   settings.glucoseUnit = document.getElementById('setting-glucose-unit').value;
+  settings.ageGroup = document.getElementById('setting-age-group').value;
   localStorage.setItem('insulinSettings', JSON.stringify(settings));
-  showToast('✅ Настройки сохранены!');
+  showToast(t('saved_toast'));
   renderFoodList();
   renderMealList();
 }
@@ -85,20 +96,19 @@ function saveSettings() {
 function autoCalculateSettings() {
   const weight = parseFloat(document.getElementById('setting-weight').value);
   if (!weight || weight <= 0) return;
-  const tdd = weight * 0.55;
-  const carbsPerUnit = 500 / tdd;
+
+  const ageGroup = document.getElementById('setting-age-group').value;
+  const tdd = computeTDD(weight, ageGroup);
+
   const currentXeWeight =
     parseFloat(document.getElementById('setting-xe-weight').value) || 10;
-  const carbRatio = currentXeWeight / carbsPerUnit;
-  let isf;
-  if (settings.glucoseUnit === 'mgdl') {
-    isf = 1800 / tdd;
-    document.getElementById('setting-isf').value = Math.round(isf);
-  } else {
-    isf = 100 / tdd;
-    document.getElementById('setting-isf').value = isf.toFixed(1);
-  }
+  const carbRatio = computeCarbRatio(tdd, currentXeWeight);
+
+  const isf = computeISF(tdd, settings.glucoseUnit);
+  document.getElementById('setting-isf').value = isf;
   document.getElementById('setting-carb-ratio').value = carbRatio.toFixed(1);
+
+  showToast('✅ Коэффициенты рассчитаны!');
 }
 
 function switchTab(tabId) {
@@ -107,7 +117,8 @@ function switchTab(tabId) {
   document
     .querySelectorAll('.nav-item')
     .forEach(n => n.classList.remove('active'));
-  document.getElementById('nav-' + tabId).classList.add('active');
+  const navItem = document.getElementById('nav-' + tabId);
+  if (navItem) navItem.classList.add('active');
   if (tabId === 'calculator') {
     renderMealList();
     document.getElementById('result-card').style.display = 'none';
@@ -122,11 +133,12 @@ function renderFoodList() {
   container.innerHTML = '';
   const filtered = foodData.filter(
     f =>
-      f.name.toLowerCase().includes(query) ||
-      f.category.toLowerCase().includes(query),
+      tFood(f.name).toLowerCase().includes(query) ||
+      tCategory(f.category).toLowerCase().includes(query),
   );
+  let html = '';
   filtered.forEach(food => {
-    const xePer100 = (food.carbsPer100g / settings.xeWeight).toFixed(1);
+    const xePer100 = computeXePer100(food.carbsPer100g, settings.xeWeight);
     let giHtml = '';
     if (food.gi) {
       let giClass = 'gi-' + food.gi;
@@ -138,23 +150,24 @@ function renderFoodList() {
             : 'Высокий ГИ';
       giHtml = `<span class="gi-badge ${giClass}">${giText}</span>`;
     }
-    const div = document.createElement('div');
-    div.className = 'food-item';
-    div.innerHTML = `
-      <div class="food-info">
-        <h4 style="display: flex; align-items: center; flex-wrap: wrap; gap: 4px;">${food.name} ${giHtml}</h4>
-        <p>${food.carbsPer100g}г углеводов / 100г (~${xePer100} ХЕ)</p>
+    html += `
+      <div class="food-item">
+        <div class="food-info">
+          <h4 style="display: flex; align-items: center; flex-wrap: wrap; gap: 4px;">${tFood(food.name)} ${giHtml}</h4>
+          <p>${food.carbsPer100g} ${t('carbs_per_100')} (~${xePer100} ${t('xe')})</p>
+        </div>
+        <button class="food-action" onclick="addToMeal('${food.id}')">+</button>
       </div>
-      <button class="food-action" onclick="addToMeal('${food.id}')">+</button>
     `;
-    container.appendChild(div);
   });
+  container.innerHTML = html;
 }
 
 function addToMeal(foodId) {
   const food = foodData.find(f => f.id === foodId);
   if (!food) return;
   const isTablet =
+    food.unit === 'pcs' ||
     food.id === 's1_1' ||
     food.name.toLowerCase().includes('сахарозаменитель') ||
     food.name.toLowerCase().includes('таблетк');
@@ -186,21 +199,22 @@ function renderMealList() {
   if (currentMeal.length === 0) {
     container.innerHTML = `
       <p style="color: var(--text-muted); font-size: 14px; text-align: center; padding: 20px 0;">
-        Список еды пуст.<br>Нажмите "+ Добавить" или введите ХЕ вручную.
+        ${t('empty_meal')}
       </p>`;
     return;
   }
   let html = '';
   currentMeal.forEach((item, index) => {
     const isTablet =
+      item.food.unit === 'pcs' ||
       item.food.id === 's1_1' ||
       item.food.name.toLowerCase().includes('сахарозаменитель') ||
       item.food.name.toLowerCase().includes('таблетк');
-    const isDrink = item.food.category === 'Напитки';
-    const unitLabel = isTablet ? 'шт.' : isDrink ? 'мл' : 'г';
+    const isDrink = item.food.category === 'Напитки' || item.food.unit === 'ml';
+    const unitLabel = isTablet ? t('pcs') : isDrink ? t('ml') : t('g');
     html += `
       <div class="meal-item">
-        <div class="name">${item.food.name}</div>
+        <div class="name">${tFood(item.food.name)}</div>
         <div class="flex-row" style="align-items: center; gap: 4px;">
           <input type="number" class="grams-input" value="${item.grams}" onchange="updateMealGrams(${index}, this.value)" inputmode="numeric"> ${unitLabel}
         </div>
@@ -212,33 +226,123 @@ function renderMealList() {
 }
 
 function calculateDose() {
-  let totalCarbs = 0;
-  currentMeal.forEach(item => {
-    totalCarbs += (item.food.carbsPer100g * item.grams) / 100;
-  });
-  let totalXe = totalCarbs / settings.xeWeight;
   const manualXeStr = document.getElementById('manual-xe').value;
-  if (manualXeStr) {
-    totalXe += parseFloat(manualXeStr) || 0;
-  }
-  const doseFood = totalXe * settings.carbRatio;
-  let doseCorrection = 0;
   const currentBgStr = document.getElementById('current-bg').value;
-  if (currentBgStr) {
-    const currentBg = parseFloat(currentBgStr);
-    if (!isNaN(currentBg)) {
-      doseCorrection = (currentBg - settings.targetBg) / settings.isf;
-    }
+  const lastInjection = JSON.parse(
+    localStorage.getItem('insulinLastInjection'),
+  );
+
+  const result = computeDose(
+    currentMeal,
+    manualXeStr,
+    settings,
+    currentBgStr,
+    lastInjection,
+  );
+
+  if (result.warnings.includes('hypo')) {
+    alert(
+      `🚨 ОПАСНОСТЬ ГИПОГЛИКЕМИИ!\n\nТекущая глюкоза (${result.currentBg}) ниже порога безопасности.\n\n1. Сначала съешьте 1-2 ХЕ быстрой глюкозы БЕЗ укола!\n2. Дождитесь подъема сахара.\n3. Только после этого рассчитывайте инсулин на еду.`,
+    );
   }
-  let finalDose = doseFood + doseCorrection;
-  if (finalDose < 0) finalDose = 0;
-  finalDose = Math.round(finalDose * 2) / 2;
+  if (result.warnings.includes('ketones')) {
+    showToast(t('high_bg_toast'));
+  }
+  if (result.warnings.includes('iob_deducted')) {
+    alert(
+      `ℹ️ Учтен активный инсулин (IOB): ~${result.activeInsulinIOB.toFixed(1)} ЕД от прошлого укола.\nДоза на коррекцию будет снижена, чтобы избежать гипогликемии.`,
+    );
+  }
+
   document.getElementById('dose-food').innerText =
-    'На еду: ' + doseFood.toFixed(1) + ' ЕД';
-  document.getElementById('dose-correction').innerText =
-    'Коррекция: ' + doseCorrection.toFixed(1) + ' ЕД';
-  document.getElementById('final-dose').innerText = finalDose.toFixed(1);
+    `${t('dose_food')} ${result.doseFood.toFixed(2)} ${t('units')}`;
+
+  const sign = result.doseCorrection > 0 ? '+' : '';
+  let correctionText = `${t('dose_correction')} ${sign}${result.doseCorrection.toFixed(2)} ${t('units')}`;
+  if (
+    result.activeInsulinIOB > 0 &&
+    result.currentBg &&
+    result.currentBg > settings.targetBg
+  ) {
+    correctionText += ` (IOB -${result.activeInsulinIOB.toFixed(1)})`;
+  }
+  document.getElementById('dose-correction').innerText = correctionText;
+
+  document.getElementById('final-dose').innerText = result.finalDose.toFixed(1);
+
+  window.lastCalculatedDose = result.finalDose;
+
   document.getElementById('result-card').style.display = 'block';
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
+
+function saveInjection() {
+  if (window.lastCalculatedDose !== undefined) {
+    const record = {
+      time: Date.now(),
+      dose: window.lastCalculatedDose,
+    };
+    localStorage.setItem('insulinLastInjection', JSON.stringify(record));
+    showToast(
+      t('injection_saved_toast').replace('{dose}', window.lastCalculatedDose),
+    );
+  }
+}
+
+let currentWizardCarbRatio = null;
+let currentWizardISF = null;
+
+function calculateWizardCarb() {
+  const carbs = parseFloat(document.getElementById('wizard-carbs').value) || 0;
+  const dose =
+    parseFloat(document.getElementById('wizard-dose-food').value) || 0;
+  const result = calculateRealCarbRatio(carbs, dose, settings.xeWeight);
+
+  if (result > 0) {
+    currentWizardCarbRatio = result;
+    document.getElementById('wizard-carb-result').innerText = result.toFixed(2);
+  } else {
+    currentWizardCarbRatio = null;
+    document.getElementById('wizard-carb-result').innerText = '--';
+  }
+}
+
+function applyWizardCarb() {
+  if (currentWizardCarbRatio && currentWizardCarbRatio > 0) {
+    settings.carbRatio = currentWizardCarbRatio;
+    document.getElementById('setting-carb-ratio').value = settings.carbRatio;
+    saveSettings();
+    showToast(t('wizard_applied_toast') || 'УК успешно применен!');
+    switchTab('settings');
+  }
+}
+
+function calculateWizardISF() {
+  const bgBefore =
+    parseFloat(document.getElementById('wizard-bg-before').value) || 0;
+  const bgAfter =
+    parseFloat(document.getElementById('wizard-bg-after').value) || 0;
+  const dose =
+    parseFloat(document.getElementById('wizard-dose-corr').value) || 0;
+  const result = calculateRealISF(bgBefore, bgAfter, dose);
+
+  if (result > 0) {
+    currentWizardISF = result;
+    document.getElementById('wizard-isf-result').innerText = result.toFixed(2);
+  } else {
+    currentWizardISF = null;
+    document.getElementById('wizard-isf-result').innerText = '--';
+  }
+}
+
+function applyWizardISF() {
+  if (currentWizardISF && currentWizardISF > 0) {
+    settings.isf = currentWizardISF;
+    document.getElementById('setting-isf').value = settings.isf;
+    saveSettings();
+    showToast(t('wizard_applied_toast') || 'ФЧИ успешно применен!');
+    switchTab('settings');
+  }
+}
+
 init();

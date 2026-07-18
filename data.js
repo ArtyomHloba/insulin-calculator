@@ -4,6 +4,7 @@ const foodData = [
     name: 'Гречневая каша (вареная)',
     category: 'Гарниры',
     carbsPer100g: 20,
+    gi: 'medium',
   },
 
   { id: 'g2', name: 'Гречка (сухая)', category: 'Гарниры', carbsPer100g: 68 },
@@ -13,6 +14,7 @@ const foodData = [
     name: 'Рис белый (вареный)',
     category: 'Гарниры',
     carbsPer100g: 28,
+    gi: 'high',
   },
 
   {
@@ -20,6 +22,7 @@ const foodData = [
     name: 'Рис бурый (вареный)',
     category: 'Гарниры',
     carbsPer100g: 23,
+    gi: 'medium',
   },
 
   { id: 'g5', name: 'Рис (сухой)', category: 'Гарниры', carbsPer100g: 78 },
@@ -29,6 +32,7 @@ const foodData = [
     name: 'Макароны (вареные)',
     category: 'Гарниры',
     carbsPer100g: 28,
+    gi: 'medium',
   },
 
   { id: 'g7', name: 'Макароны (сухие)', category: 'Гарниры', carbsPer100g: 70 },
@@ -38,6 +42,7 @@ const foodData = [
     name: 'Картофель вареный',
     category: 'Гарниры',
     carbsPer100g: 18,
+    gi: 'high',
   },
 
   {
@@ -45,6 +50,7 @@ const foodData = [
     name: 'Картофельное пюре (на молоке)',
     category: 'Гарниры',
     carbsPer100g: 15,
+    gi: 'high',
   },
 
   { id: 'g10', name: 'Картофель фри', category: 'Гарниры', carbsPer100g: 35 },
@@ -54,6 +60,7 @@ const foodData = [
     name: 'Картофель жареный',
     category: 'Гарниры',
     carbsPer100g: 23,
+    gi: 'high',
   },
 
   {
@@ -61,6 +68,7 @@ const foodData = [
     name: 'Овсяная каша (на молоке)',
     category: 'Гарниры',
     carbsPer100g: 15,
+    gi: 'medium',
   },
 
   {
@@ -68,6 +76,7 @@ const foodData = [
     name: 'Овсяные хлопья (сухие)',
     category: 'Гарниры',
     carbsPer100g: 62,
+    gi: 'medium',
   },
 
   {
@@ -75,6 +84,7 @@ const foodData = [
     name: 'Пшенная каша (вареная)',
     category: 'Гарниры',
     carbsPer100g: 17,
+    gi: 'high',
   },
 
   {
@@ -82,6 +92,7 @@ const foodData = [
     name: 'Булгур (вареный)',
     category: 'Гарниры',
     carbsPer100g: 18,
+    gi: 'medium',
   },
 
   {
@@ -89,6 +100,7 @@ const foodData = [
     name: 'Кускус (вареный)',
     category: 'Гарниры',
     carbsPer100g: 23,
+    gi: 'high',
   },
 
   { id: 'g17', name: 'Киноа (вареная)', category: 'Гарниры', carbsPer100g: 21 },
@@ -98,6 +110,7 @@ const foodData = [
     name: 'Хлеб белый (пшеничный)',
     category: 'Хлеб и выпечка',
     carbsPer100g: 50,
+    gi: 'high',
   },
 
   {
@@ -105,6 +118,7 @@ const foodData = [
     name: 'Хлеб черный (ржаной)',
     category: 'Хлеб и выпечка',
     carbsPer100g: 40,
+    gi: 'medium',
   },
 
   {
@@ -112,6 +126,7 @@ const foodData = [
     name: 'Батон нарезной',
     category: 'Хлеб и выпечка',
     carbsPer100g: 51,
+    gi: 'high',
   },
 
   {
@@ -119,6 +134,7 @@ const foodData = [
     name: 'Лаваш тонкий (армянский)',
     category: 'Хлеб и выпечка',
     carbsPer100g: 48,
+    gi: 'medium',
   },
 
   {
@@ -126,6 +142,7 @@ const foodData = [
     name: 'Хлебцы хрустящие',
     category: 'Хлеб и выпечка',
     carbsPer100g: 60,
+    gi: 'medium',
   },
 
   {
@@ -133,6 +150,7 @@ const foodData = [
     name: 'Блины (без начинки)',
     category: 'Хлеб и выпечка',
     carbsPer100g: 28,
+    gi: 'high',
   },
 
   { id: 'b7', name: 'Оладьи', category: 'Хлеб и выпечка', carbsPer100g: 35 },
@@ -142,6 +160,7 @@ const foodData = [
     name: 'Пирожок с картошкой',
     category: 'Хлеб и выпечка',
     carbsPer100g: 38,
+    gi: 'medium',
   },
 
   {
@@ -149,6 +168,7 @@ const foodData = [
     name: 'Пирожок с мясом',
     category: 'Хлеб и выпечка',
     carbsPer100g: 30,
+    gi: 'medium',
   },
 
   {
@@ -156,6 +176,7 @@ const foodData = [
     name: 'Булочка сладкая',
     category: 'Хлеб и выпечка',
     carbsPer100g: 55,
+    gi: 'high',
   },
 
   { id: 'b11', name: 'Круассан', category: 'Хлеб и выпечка', carbsPer100g: 45 },
@@ -167,6 +188,7 @@ const foodData = [
     name: 'Банан (без кожуры)',
     category: 'Фрукты и ягоды',
     carbsPer100g: 23,
+    gi: 'medium',
   },
 
   { id: 'f3', name: 'Апельсин', category: 'Фрукты и ягоды', carbsPer100g: 8 },
@@ -196,6 +218,7 @@ const foodData = [
     name: 'Ананас (свежий)',
     category: 'Фрукты и ягоды',
     carbsPer100g: 13,
+    gi: 'low',
   },
 
   { id: 'f15', name: 'Манго', category: 'Фрукты и ягоды', carbsPer100g: 15 },
@@ -219,6 +242,7 @@ const foodData = [
     name: 'Кукуруза консервированная',
     category: 'Овощи и бобовые',
     carbsPer100g: 11,
+    gi: 'low',
   },
 
   {
@@ -226,6 +250,7 @@ const foodData = [
     name: 'Горошек зеленый консервированный',
     category: 'Овощи и бобовые',
     carbsPer100g: 6,
+    gi: 'low',
   },
 
   {
@@ -233,6 +258,7 @@ const foodData = [
     name: 'Морковь сырая',
     category: 'Овощи и бобовые',
     carbsPer100g: 7,
+    gi: 'low',
   },
 
   {
@@ -240,6 +266,7 @@ const foodData = [
     name: 'Морковь вареная',
     category: 'Овощи и бобовые',
     carbsPer100g: 5,
+    gi: 'high',
   },
 
   {
@@ -247,6 +274,7 @@ const foodData = [
     name: 'Свекла вареная',
     category: 'Овощи и бобовые',
     carbsPer100g: 8,
+    gi: 'low',
   },
 
   {
@@ -254,6 +282,7 @@ const foodData = [
     name: 'Помидор',
     category: 'Овощи (безуглеводные)',
     carbsPer100g: 4,
+    gi: 'medium',
   },
 
   {
@@ -261,6 +290,7 @@ const foodData = [
     name: 'Огурец',
     category: 'Овощи (безуглеводные)',
     carbsPer100g: 3,
+    gi: 'medium',
   },
 
   {
@@ -268,6 +298,7 @@ const foodData = [
     name: 'Капуста белокочанная',
     category: 'Овощи (безуглеводные)',
     carbsPer100g: 5,
+    gi: 'medium',
   },
 
   {
@@ -275,6 +306,7 @@ const foodData = [
     name: 'Перец болгарский',
     category: 'Овощи (безуглеводные)',
     carbsPer100g: 5,
+    gi: 'medium',
   },
 
   {
@@ -282,6 +314,7 @@ const foodData = [
     name: 'Фасоль вареная',
     category: 'Овощи и бобовые',
     carbsPer100g: 21,
+    gi: 'low',
   },
 
   {
@@ -289,6 +322,7 @@ const foodData = [
     name: 'Чечевица вареная',
     category: 'Овощи и бобовые',
     carbsPer100g: 20,
+    gi: 'low',
   },
 
   {
@@ -296,6 +330,7 @@ const foodData = [
     name: 'Сахар (рафинад/песок)',
     category: 'Сладости',
     carbsPer100g: 99.8,
+    gi: 'high',
   },
 
   {
@@ -304,6 +339,7 @@ const foodData = [
     category: 'Сладости',
     carbsPer100g: 0,
     defaultAmount: 1,
+    gi: 'high',
   },
 
   {
@@ -322,6 +358,7 @@ const foodData = [
     name: 'Шоколад молочный',
     category: 'Сладости',
     carbsPer100g: 55,
+    gi: 'high',
   },
 
   {
@@ -329,6 +366,7 @@ const foodData = [
     name: 'Шоколад горький (70%)',
     category: 'Сладости',
     carbsPer100g: 48,
+    gi: 'high',
   },
 
   {
@@ -336,6 +374,7 @@ const foodData = [
     name: 'Конфета шоколадная',
     category: 'Сладости',
     carbsPer100g: 60,
+    gi: 'high',
   },
 
   {
@@ -343,6 +382,7 @@ const foodData = [
     name: 'Леденец (карамель)',
     category: 'Сладости',
     carbsPer100g: 95,
+    gi: 'high',
   },
 
   { id: 's7', name: 'Мармелад', category: 'Сладости', carbsPer100g: 80 },
@@ -356,6 +396,7 @@ const foodData = [
     name: 'Печенье юбилейное',
     category: 'Сладости',
     carbsPer100g: 65,
+    gi: 'high',
   },
 
   { id: 's11', name: 'Пряники', category: 'Сладости', carbsPer100g: 75 },
@@ -367,6 +408,7 @@ const foodData = [
     name: 'Торт бисквитный',
     category: 'Сладости',
     carbsPer100g: 50,
+    gi: 'high',
   },
 
   {
@@ -374,6 +416,7 @@ const foodData = [
     name: 'Сгущенное молоко (с сахаром)',
     category: 'Сладости',
     carbsPer100g: 56,
+    gi: 'high',
   },
 
   {
@@ -381,6 +424,7 @@ const foodData = [
     name: 'Мороженое Пломбир (ванильный)',
     category: 'Мороженое',
     carbsPer100g: 20,
+    gi: 'medium',
   },
 
   {
@@ -388,6 +432,7 @@ const foodData = [
     name: 'Мороженое Эскимо (в шоколаде)',
     category: 'Мороженое',
     carbsPer100g: 22,
+    gi: 'medium',
   },
 
   {
@@ -395,6 +440,7 @@ const foodData = [
     name: 'Мороженое Фруктовый лед',
     category: 'Мороженое',
     carbsPer100g: 28,
+    gi: 'medium',
   },
 
   {
@@ -402,6 +448,7 @@ const foodData = [
     name: 'Мороженое Рожок (с вафлей)',
     category: 'Мороженое',
     carbsPer100g: 30,
+    gi: 'medium',
   },
 
   {
@@ -409,6 +456,7 @@ const foodData = [
     name: 'Мороженое Шоколадное',
     category: 'Мороженое',
     carbsPer100g: 22,
+    gi: 'medium',
   },
 
   {
@@ -416,6 +464,7 @@ const foodData = [
     name: 'Молоко 2.5-3.2%',
     category: 'Молочные продукты',
     carbsPer100g: 4.7,
+    gi: 'low',
   },
 
   { id: 'd2', name: 'Кефир', category: 'Молочные продукты', carbsPer100g: 4.0 },
@@ -425,6 +474,7 @@ const foodData = [
     name: 'Йогурт питьевой (с сахаром/фруктами)',
     category: 'Молочные продукты',
     carbsPer100g: 11,
+    gi: 'low',
   },
 
   {
@@ -432,6 +482,7 @@ const foodData = [
     name: 'Йогурт натуральный (без добавок)',
     category: 'Молочные продукты',
     carbsPer100g: 5,
+    gi: 'low',
   },
 
   {
@@ -439,6 +490,7 @@ const foodData = [
     name: 'Творог 5-9%',
     category: 'Молочные продукты',
     carbsPer100g: 3,
+    gi: 'low',
   },
 
   {
@@ -446,6 +498,7 @@ const foodData = [
     name: 'Творожок сладкий / сырок',
     category: 'Молочные продукты',
     carbsPer100g: 15,
+    gi: 'high',
   },
 
   {
@@ -453,6 +506,7 @@ const foodData = [
     name: 'Сырок глазированный',
     category: 'Молочные продукты',
     carbsPer100g: 30,
+    gi: 'high',
   },
 
   { id: 'd8', name: 'Смета', category: 'Молочные продукты', carbsPer100g: 3.5 },
@@ -462,6 +516,7 @@ const foodData = [
     name: 'Сырники (из творога с мукой)',
     category: 'Молочные продукты',
     carbsPer100g: 20,
+    gi: 'low',
   },
 
   {
@@ -469,6 +524,7 @@ const foodData = [
     name: 'Сок яблочный (пакетированный)',
     category: 'Напитки',
     carbsPer100g: 11,
+    gi: 'medium',
   },
 
   {
@@ -476,6 +532,7 @@ const foodData = [
     name: 'Сок апельсиновый',
     category: 'Напитки',
     carbsPer100g: 10,
+    gi: 'medium',
   },
 
   { id: 'dr3', name: 'Сок мультифрукт', category: 'Напитки', carbsPer100g: 12 },
@@ -485,6 +542,7 @@ const foodData = [
     name: 'Кока-Кола / Пепси (классика)',
     category: 'Напитки',
     carbsPer100g: 10.6,
+    gi: 'medium',
   },
 
   {
@@ -492,6 +550,7 @@ const foodData = [
     name: 'Кока-Кола Zero / Без сахара',
     category: 'Напитки',
     carbsPer100g: 0,
+    gi: 'medium',
   },
 
   { id: 'dr6', name: 'Спрайт / 7Up', category: 'Напитки', carbsPer100g: 10 },
@@ -503,6 +562,7 @@ const foodData = [
     name: 'Чай сладкий (2 ч.л. сахара на чашку)',
     category: 'Напитки',
     carbsPer100g: 6,
+    gi: 'medium',
   },
 
   {
@@ -510,6 +570,7 @@ const foodData = [
     name: 'Бургер (Биг Мак / Воппер)',
     category: 'Фастфуд',
     carbsPer100g: 22,
+    gi: 'high',
   },
 
   {
@@ -517,6 +578,7 @@ const foodData = [
     name: 'Гамбургер классический',
     category: 'Фастфуд',
     carbsPer100g: 28,
+    gi: 'high',
   },
 
   {
@@ -524,6 +586,7 @@ const foodData = [
     name: 'Пицца (на тонком тесте)',
     category: 'Фастфуд',
     carbsPer100g: 32,
+    gi: 'high',
   },
 
   {
@@ -531,6 +594,7 @@ const foodData = [
     name: 'Пицца (на толстом тесте)',
     category: 'Фастфуд',
     carbsPer100g: 35,
+    gi: 'high',
   },
 
   {
@@ -538,6 +602,7 @@ const foodData = [
     name: 'Шаурма (в лаваше)',
     category: 'Фастфуд',
     carbsPer100g: 20,
+    gi: 'high',
   },
 
   {
@@ -545,6 +610,7 @@ const foodData = [
     name: 'Наггетсы куриные (в панировке)',
     category: 'Фастфуд',
     carbsPer100g: 15,
+    gi: 'high',
   },
 
   {
@@ -552,6 +618,7 @@ const foodData = [
     name: 'Суши / Роллы (с рисом)',
     category: 'Фастфуд',
     carbsPer100g: 30,
+    gi: 'high',
   },
 
   {
@@ -559,6 +626,7 @@ const foodData = [
     name: 'Блин с начинкой (Теремок)',
     category: 'Фастфуд',
     carbsPer100g: 25,
+    gi: 'high',
   },
 
   {
@@ -566,6 +634,7 @@ const foodData = [
     name: 'Куриное филе вареное',
     category: 'Мясо и рыба (0 ХЕ)',
     carbsPer100g: 0,
+    gi: 'medium',
   },
 
   {
@@ -573,6 +642,7 @@ const foodData = [
     name: 'Говядина / Свинина вареная',
     category: 'Мясо и рыба (0 ХЕ)',
     carbsPer100g: 0,
+    gi: 'medium',
   },
 
   {
@@ -580,6 +650,7 @@ const foodData = [
     name: 'Котлета мясная (без хлеба)',
     category: 'Мясо и рыба (0 ХЕ)',
     carbsPer100g: 3,
+    gi: 'medium',
   },
 
   {
@@ -587,6 +658,7 @@ const foodData = [
     name: 'Котлета домашняя (с хлебом)',
     category: 'Мясо и рыба (0 ХЕ)',
     carbsPer100g: 10,
+    gi: 'medium',
   },
 
   {
@@ -594,6 +666,7 @@ const foodData = [
     name: 'Рыба запеченая',
     category: 'Мясо и рыба (0 ХЕ)',
     carbsPer100g: 0,
+    gi: 'medium',
   },
 
   {
@@ -601,6 +674,7 @@ const foodData = [
     name: 'Яйцо куриное вареное (1 шт = ~50г)',
     category: 'Мясо и рыба (0 ХЕ)',
     carbsPer100g: 0.5,
+    gi: 'medium',
   },
 
   {
@@ -608,6 +682,7 @@ const foodData = [
     name: 'Яйцо жареное / глазунья (1 шт = ~50г)',
     category: 'Мясо и рыба (0 ХЕ)',
     carbsPer100g: 0.8,
+    gi: 'medium',
   },
 
   { id: 'z7', name: 'Сыр твердый', category: 'Сыр', carbsPer100g: 0.5 },
@@ -617,6 +692,7 @@ const foodData = [
     name: 'Колбаса вареная / Сосиски',
     category: 'Мясо и рыба (0 ХЕ)',
     carbsPer100g: 2,
+    gi: 'medium',
   },
 
   { id: 'z9', name: 'Орехи грецкие', category: 'Орехи', carbsPer100g: 14 },
@@ -1165,16 +1241,14 @@ const foodData = [
     gi: 'high',
     defaultAmount: 50.5,
   },
-
   {
     id: 's23',
-    name: 'Сникерс Супер (2 палочки = 80г)',
+    name: 'Сникерс Супер (2 палочки = 75г)',
     category: 'Сладости',
     carbsPer100g: 60,
     gi: 'high',
-    defaultAmount: 80,
+    defaultAmount: 75,
   },
-
   {
     id: 's24',
     name: 'Сникерс Трио (3 палочки = 112.5г)',
@@ -1183,43 +1257,38 @@ const foodData = [
     gi: 'high',
     defaultAmount: 112.5,
   },
-
   {
     id: 's25',
-    name: 'Баунти (стандарт, 2 палочки = 55г)',
+    name: 'Баунти (стандарт, 2 палочки = 57г)',
     category: 'Сладости',
     carbsPer100g: 60,
     gi: 'high',
-    defaultAmount: 55,
+    defaultAmount: 57,
   },
-
   {
     id: 's26',
-    name: 'Баунти Трио (3 палочки = 82.5г)',
+    name: 'Баунти Трио (3 палочки = 85.5г)',
     category: 'Сладости',
     carbsPer100g: 60,
     gi: 'high',
-    defaultAmount: 82.5,
+    defaultAmount: 85.5,
   },
-
   {
     id: 's27',
-    name: 'Твикс (стандарт, 2 палочки = 55г)',
+    name: 'Твикс (стандарт, 2 палочки = 50г)',
     category: 'Сладости',
-    carbsPer100g: 64,
+    carbsPer100g: 65,
     gi: 'high',
-    defaultAmount: 55,
+    defaultAmount: 50,
   },
-
   {
     id: 's28',
-    name: 'Твикс Экстра (2 большие палочки = 82г)',
+    name: 'Твикс Экстра (Xtra, 2 палочки = 75г)',
     category: 'Сладости',
-    carbsPer100g: 64,
+    carbsPer100g: 65,
     gi: 'high',
-    defaultAmount: 82,
+    defaultAmount: 75,
   },
-
   {
     id: 's29',
     name: 'Milky Way (стандарт, 1 палочка = 26г)',
@@ -1227,5 +1296,150 @@ const foodData = [
     carbsPer100g: 70,
     gi: 'high',
     defaultAmount: 26,
+  },
+  {
+    id: 's30',
+    name: 'Мармелад Roshen "Шалена Бджілка" (1 шт = ~7г)',
+    category: 'Сладости',
+    carbsPer100g: 80,
+    gi: 'high',
+    defaultAmount: 7,
+  },
+  {
+    id: 's31',
+    name: 'Шоколад Roshen Lacmi (молочный с начинкой)',
+    category: 'Сладости',
+    carbsPer100g: 58,
+    gi: 'high',
+    defaultAmount: 100,
+  },
+  {
+    id: 'misc1',
+    name: 'Кетчуп',
+    category: 'Разное',
+    carbsPer100g: 25,
+    gi: 'medium',
+    defaultAmount: 20,
+  },
+  {
+    id: 'misc2',
+    name: 'Майонез',
+    category: 'Разное',
+    carbsPer100g: 3,
+    gi: 'low',
+    defaultAmount: 20,
+  },
+  {
+    id: 'misc3',
+    name: 'Сметана 15-20%',
+    category: 'Молочные продукты',
+    carbsPer100g: 3.5,
+    gi: 'low',
+    defaultAmount: 30,
+  },
+  {
+    id: 'misc4',
+    name: 'Соевый соус',
+    category: 'Разное',
+    carbsPer100g: 8,
+    unit: 'ml',
+    gi: 'low',
+    defaultAmount: 15,
+  },
+  {
+    id: 'md1',
+    name: 'Пельмени (1 шт = ~3.5г угл)',
+    category: 'Основные блюда',
+    carbsPer100g: 350,
+    unit: 'pcs',
+    gi: 'medium',
+    defaultAmount: 15,
+  },
+  {
+    id: 'md2',
+    name: 'Вареники с картошкой (1 шт = ~6г угл)',
+    category: 'Основные блюда',
+    carbsPer100g: 600,
+    unit: 'pcs',
+    gi: 'high',
+    defaultAmount: 8,
+  },
+  {
+    id: 'md3',
+    name: 'Вареники с капустой (1 шт = ~4г угл)',
+    category: 'Основные блюда',
+    carbsPer100g: 400,
+    unit: 'pcs',
+    gi: 'medium',
+    defaultAmount: 8,
+  },
+  {
+    id: 'md4',
+    name: 'Вареники с мясом (1 шт = ~4г угл)',
+    category: 'Основные блюда',
+    carbsPer100g: 400,
+    unit: 'pcs',
+    gi: 'medium',
+    defaultAmount: 8,
+  },
+  {
+    id: 'f23',
+    name: 'Ананас',
+    category: 'Фрукты и ягоды',
+    carbsPer100g: 13,
+    gi: 'medium',
+    defaultAmount: 150,
+  },
+  {
+    id: 'f24',
+    name: 'Грейпфрут',
+    category: 'Фрукты и ягоды',
+    carbsPer100g: 6,
+    gi: 'low',
+    defaultAmount: 200,
+  },
+  {
+    id: 'f25',
+    name: 'Лимон',
+    category: 'Фрукты и ягоды',
+    carbsPer100g: 9,
+    gi: 'low',
+    defaultAmount: 50,
+  },
+  {
+    id: 'dr10',
+    name: 'Чай черный (без сахара)',
+    category: 'Напитки',
+    carbsPer100g: 0,
+    unit: 'ml',
+    gi: 'low',
+    defaultAmount: 200,
+  },
+  {
+    id: 'dr11',
+    name: 'Чай зеленый (без сахара)',
+    category: 'Напитки',
+    carbsPer100g: 0,
+    unit: 'ml',
+    gi: 'low',
+    defaultAmount: 200,
+  },
+  {
+    id: 'dr12',
+    name: 'Чай травяной / фруктовый (без сахара)',
+    category: 'Напитки',
+    carbsPer100g: 0,
+    unit: 'ml',
+    gi: 'low',
+    defaultAmount: 200,
+  },
+  {
+    id: 'dr13',
+    name: 'Кофе эспрессо / американо (без сахара)',
+    category: 'Напитки',
+    carbsPer100g: 0,
+    unit: 'ml',
+    gi: 'low',
+    defaultAmount: 150,
   },
 ];
