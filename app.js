@@ -1,9 +1,9 @@
 let settings = {
-  weight: 30,
+  weight: 40,
   xeWeight: 10,
   targetBg: 5.5,
-  carbRatio: 1.0,
-  isf: 3.0,
+  carbRatio: 0.9,
+  isf: 3.6,
   glucoseUnit: 'mmol',
   ageGroup: 'child',
 };
