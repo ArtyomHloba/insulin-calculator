@@ -25,7 +25,13 @@ const foodData = [
     gi: 'medium',
   },
 
-  { id: 'g5', name: 'Рис (сухой)', category: 'Гарниры', carbsPer100g: 78 },
+  {
+    id: 'g5',
+    name: 'Рис (сухой)',
+    category: 'Гарниры',
+    carbsPer100g: 78,
+    gi: 'medium',
+  },
 
   {
     id: 'g6',
@@ -35,7 +41,13 @@ const foodData = [
     gi: 'medium',
   },
 
-  { id: 'g7', name: 'Макароны (сухие)', category: 'Гарниры', carbsPer100g: 70 },
+  {
+    id: 'g7',
+    name: 'Макароны (сухие)',
+    category: 'Гарниры',
+    carbsPer100g: 70,
+    gi: 'medium',
+  },
 
   {
     id: 'g8',
@@ -971,10 +983,11 @@ const foodData = [
 
   {
     id: 's18',
-    name: 'Сникерс / Марс (батончик)',
+    name: 'Марс (стандарт, 51г)',
     category: 'Сладости',
-    carbsPer100g: 60,
+    carbsPer100g: 68,
     gi: 'high',
+    defaultAmount: 51,
   },
 
   {
@@ -1235,11 +1248,11 @@ const foodData = [
 
   {
     id: 's22',
-    name: 'Сникерс (стандарт, 1 палочка = 50.5г)',
+    name: 'Сникерс (стандарт, 50г)',
     category: 'Сладости',
-    carbsPer100g: 60,
+    carbsPer100g: 60.2,
     gi: 'high',
-    defaultAmount: 50.5,
+    defaultAmount: 50,
   },
   {
     id: 's23',
@@ -1259,7 +1272,7 @@ const foodData = [
   },
   {
     id: 's25',
-    name: 'Баунти (стандарт, 2 палочки = 57г)',
+    name: 'Баунти (стандарт, 57г)',
     category: 'Сладости',
     carbsPer100g: 60,
     gi: 'high',
@@ -1383,7 +1396,7 @@ const foodData = [
     defaultAmount: 8,
   },
   {
-    id: 'f23',
+    id: 'fixed_1000',
     name: 'Ананас',
     category: 'Фрукты и ягоды',
     carbsPer100g: 13,
@@ -1391,7 +1404,7 @@ const foodData = [
     defaultAmount: 150,
   },
   {
-    id: 'f24',
+    id: 'fixed_1001',
     name: 'Грейпфрут',
     category: 'Фрукты и ягоды',
     carbsPer100g: 6,
@@ -1399,7 +1412,7 @@ const foodData = [
     defaultAmount: 200,
   },
   {
-    id: 'f25',
+    id: 'fixed_1002',
     name: 'Лимон',
     category: 'Фрукты и ягоды',
     carbsPer100g: 9,
@@ -1407,7 +1420,7 @@ const foodData = [
     defaultAmount: 50,
   },
   {
-    id: 'dr10',
+    id: 'fixed_1003',
     name: 'Чай черный (без сахара)',
     category: 'Напитки',
     carbsPer100g: 0,
@@ -1416,7 +1429,7 @@ const foodData = [
     defaultAmount: 200,
   },
   {
-    id: 'dr11',
+    id: 'fixed_1004',
     name: 'Чай зеленый (без сахара)',
     category: 'Напитки',
     carbsPer100g: 0,
@@ -1425,7 +1438,7 @@ const foodData = [
     defaultAmount: 200,
   },
   {
-    id: 'dr12',
+    id: 'fixed_1005',
     name: 'Чай травяной / фруктовый (без сахара)',
     category: 'Напитки',
     carbsPer100g: 0,
@@ -1434,12 +1447,28 @@ const foodData = [
     defaultAmount: 200,
   },
   {
-    id: 'dr13',
+    id: 'fixed_1006',
     name: 'Кофе эспрессо / американо (без сахара)',
     category: 'Напитки',
     carbsPer100g: 0,
     unit: 'ml',
     gi: 'low',
     defaultAmount: 150,
+  },
+  {
+    id: 'sw100',
+    name: 'Батончик Папита (Papita, 33г)',
+    category: 'Сладости',
+    carbsPer100g: 60.6,
+    gi: 'high',
+    defaultAmount: 33,
+  },
+  {
+    id: 'sw101',
+    name: 'Пончик Папита (Papita, 40г)',
+    category: 'Сладости',
+    carbsPer100g: 60,
+    gi: 'high',
+    defaultAmount: 40,
   },
 ];

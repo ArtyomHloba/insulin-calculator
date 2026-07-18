@@ -123,29 +123,42 @@ function computeDose(meal, manualXeStr, settings, currentBgStr, lastInjection) {
   };
 }
 
-/**
- * Рассчитывает реальный Углеводный Коэффициент (УК) на основе опыта.
- */
-function calculateRealCarbRatio(carbsGrams, dose, xeWeight) {
+function calculateRealCarbRatio(
+  carbsGrams,
+  totalDose,
+  xeWeight,
+  correctionDose = 0,
+) {
   if (
     !carbsGrams ||
     carbsGrams <= 0 ||
-    !dose ||
-    dose <= 0 ||
+    !totalDose ||
+    totalDose <= 0 ||
     !xeWeight ||
     xeWeight <= 0
-  )
+  ) {
     return 0;
+  }
+
+  const foodDose = Math.max(0, totalDose - correctionDose);
+  if (foodDose <= 0) return 0;
+
   const xe = carbsGrams / xeWeight;
-  return parseFloat((dose / xe).toFixed(2));
+  return parseFloat((foodDose / xe).toFixed(2));
 }
 
-/**
- * Рассчитывает реальный Фактор Чувствительности к Инсулину (ФЧИ) на основе опыта.
- */
-function calculateRealISF(bgBefore, bgAfter, dose) {
-  if (!bgBefore || !bgAfter || !dose || dose <= 0) return 0;
+function calculateRealISF(
+  bgBefore,
+  bgAfter,
+  correctionDose,
+  hadFoodDuringPeriod = false,
+) {
+  if (hadFoodDuringPeriod) return 0;
+
+  if (!bgBefore || !bgAfter || !correctionDose || correctionDose <= 0) return 0;
+
   const drop = bgBefore - bgAfter;
-  if (drop <= 0) return 0; // Нельзя рассчитать, если сахар не упал
-  return parseFloat((drop / dose).toFixed(2));
+  if (drop <= 0) return 0;
+
+  return parseFloat((drop / correctionDose).toFixed(2));
 }

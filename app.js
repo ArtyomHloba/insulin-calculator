@@ -1,11 +1,11 @@
 let settings = {
-  weight: 60,
+  weight: 30,
   xeWeight: 10,
   targetBg: 5.5,
   carbRatio: 1.0,
   isf: 3.0,
   glucoseUnit: 'mmol',
-  ageGroup: 'adult',
+  ageGroup: 'child',
 };
 
 let currentMeal = [];
@@ -215,10 +215,17 @@ function renderMealList() {
     html += `
       <div class="meal-item">
         <div class="name">${tFood(item.food.name)}</div>
-        <div class="flex-row" style="align-items: center; gap: 4px;">
-          <input type="number" class="grams-input" value="${item.grams}" onchange="updateMealGrams(${index}, this.value)" inputmode="numeric"> ${unitLabel}
+        <div class="flex-row" style="justify-content: space-between; align-items: center; margin-top: 12px; width: 100%;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <input type="number" class="grams-input" value="${item.grams}" onchange="updateMealGrams(${index}, this.value)" inputmode="numeric">
+            <span style="color: var(--text-muted);">${unitLabel}</span>
+          </div>
+          <button class="remove-btn" onclick="removeFromMeal(${index})">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+              <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+            </svg>
+          </button>
         </div>
-        <button class="remove-btn" onclick="removeFromMeal(${index})">×</button>
       </div>
     `;
   });
@@ -296,7 +303,9 @@ function calculateWizardCarb() {
   const carbs = parseFloat(document.getElementById('wizard-carbs').value) || 0;
   const dose =
     parseFloat(document.getElementById('wizard-dose-food').value) || 0;
-  const result = calculateRealCarbRatio(carbs, dose, settings.xeWeight);
+  const corr =
+    parseFloat(document.getElementById('wizard-carb-corr').value) || 0;
+  const result = calculateRealCarbRatio(carbs, dose, settings.xeWeight, corr);
 
   if (result > 0) {
     currentWizardCarbRatio = result;
@@ -324,7 +333,8 @@ function calculateWizardISF() {
     parseFloat(document.getElementById('wizard-bg-after').value) || 0;
   const dose =
     parseFloat(document.getElementById('wizard-dose-corr').value) || 0;
-  const result = calculateRealISF(bgBefore, bgAfter, dose);
+  const hadFood = document.getElementById('wizard-isf-food').checked;
+  const result = calculateRealISF(bgBefore, bgAfter, dose, hadFood);
 
   if (result > 0) {
     currentWizardISF = result;
